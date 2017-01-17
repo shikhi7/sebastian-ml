@@ -1,4 +1,5 @@
 import numpy as np
+import re
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 count=CountVectorizer(ngram_range=(1,1))
@@ -16,4 +17,13 @@ bag=count.fit_transform(docs)
 #We also have tf-idf library
 tfidf= TfidfTransformer()
 bag=tfidf.fit_transform(bag)
-print(bag.toarray())
+# print(bag.toarray())
+
+#Cleaning the data, using regex library
+#First remove all the html tags, then collect emoticons, remove any non word character from original data, convert to lower case, append the emoticons.
+def preprocessor(text):
+    text=re.sub('<[^>]*>','',text)
+    emoticons=re.findall('(?::|;|=)(?:-)?(?:\)|\(|D|P)',text)
+    #Removing non word characters
+    text=re.sub('[\W+]',' ',text.lower())+\' '.join(emoticons).replace('-','')
+    return text
