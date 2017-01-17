@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
+from nltk.stem.porter import PorterStemmer
 count=CountVectorizer(ngram_range=(1,1))
 docs=np.array(['The sun is shining','The weather is sweet','The sun is shining and the weather is sweet'])
 bag=count.fit_transform(docs)
@@ -38,6 +39,10 @@ df=pd.read_csv('./movie_data.csv')
 df['review']=df['review'].apply(preprocessor)
 # Apply method applies functions along the axis. Available exclusively in pandas.
 #test
-print(df.head(n=3))
+# print(df.head(n=3))
 #Exporting cleaned data as a csv
-df.to_csv('./cleaned_movie_data.csv',index=False)
+# df.to_csv('./cleaned_movie_data.csv',index=False)
+
+
+#Porter Stemming algorithm: http://snowball.tartarus.org/algorithms/porter/stemmer.html
+
