@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import re
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -25,5 +26,18 @@ def preprocessor(text):
     text=re.sub('<[^>]*>','',text)
     emoticons=re.findall('(?::|;|=)(?:-)?(?:\)|\(|D|P)',text)
     #Removing non word characters
-    text=re.sub('[\W+]',' ',text.lower())+\' '.join(emoticons).replace('-','')
+    text=re.sub('[\W+]',' ',text.lower()) + ' '.join(emoticons).replace('-','')
     return text
+df=pd.read_csv('./movie_data.csv')
+#test1
+# print(df.head(n=5))
+#print(preprocessor(df.loc[0,'review']))
+#test2
+# print(preprocessor("</a>This :) is :( a test =)!"))
+#Applying preprocessor to all the reviews
+df['review']=df['review'].apply(preprocessor)
+# Apply method applies functions along the axis. Available exclusively in pandas.
+#test
+print(df.head(n=3))
+#Exporting cleaned data as a csv
+df.to_csv('./cleaned_movie_data.csv',index=False)
